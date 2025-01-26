@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Eventos</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+    <!-- Barra de navegación -->
+    {% include 'tasks/navbar.html' %}
+
+    <!-- Contenedor principal -->
+    <div class="container py-5">
+        <h1 class="mb-4 text-center text-primary">Lista de Eventos Creados</h1>
+        <div class="row">
+            {% for evento in eventos %}
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm border-0 rounded">
+                        <!-- Imagen del Evento -->
+                        {% if evento.imagen %}
+                            <img src="{{ evento.imagen.url }}" class="card-img-top" alt="Imagen del Evento">
+                        {% endif %}
+                        <div class="card-body">
+                            <!-- Detalles del Evento -->
+                            <h5 class="card-title text-primary">{{ evento.nombre }}</h5>
+                            <p class="card-text"><strong>Creado por:</strong> {{ evento.creador.username }}</p>
+                            <p class="card-text"><strong>Descripción:</strong> {{ evento.descripcion }}</p>
+                            <p class="card-text"><strong>Fecha:</strong> {{ evento.fecha }}</p>
+                            <p class="card-text"><strong>Ubicación:</strong> {{ evento.ubicacion.nombre }}</p>
+                            <p class="card-text"><strong>Capacidad:</strong> {{ evento.capacidad }}</p>
+
+                            <!-- Botón Comprar Boleto -->
+                            <div class="text-end">
+                                <a href="{% url 'comprar_boleto' evento.id %}" class="btn btn-success">Comprar Boleto</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Botón para crear un nuevo evento -->
+        <div class="text-center mt-4">
+            <a href="{% url 'crear_evento' %}" class="btn btn-primary">Crear Nuevo Evento</a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

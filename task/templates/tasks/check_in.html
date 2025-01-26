@@ -1,0 +1,31 @@
+ <!-- Modal para Check-in -->
+    <div class="modal fade" id="checkInModal" tabindex="-1" aria-labelledby="checkInModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="checkInModalLabel">Check-in Digital</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="codigoQR" class="form-label">Código QR</label>
+                            <input type="text" id="codigoQR" name="codigo_qr" class="form-control" placeholder="Ingresa el código QR del ticket" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Confirmar Check-in</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Mostrar mensajes -->
+    {% if messages %}
+    <div class="container mt-4">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} text-center" role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}

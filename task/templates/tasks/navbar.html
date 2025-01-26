@@ -1,0 +1,25 @@
+<!-- navbar.html -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'lista_eventos' %}">Sistema de Eventos</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a href="{% url 'logout' %}" class="btn btn-danger ms-3">Cerrar Sesión</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'historial_compras' %}" class="btn btn-info ms-3">Historial de Compras</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'gestionar_eventos' %}" class="btn btn-info ms-3">Gestión Eventos</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'agenda_eventos' %}" class="btn btn-info ms-3">Agenda Eventos</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Tickets</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body class="bg-light">
+    <!-- Barra de navegación -->
+    {% include 'tasks/navbar.html' %}
+
+    <div class="container py-5">
+        <h2 class="text-center mb-4">Gestión de Tickets</h2>
+        {% if tickets %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Evento</th>
+                        <th>Estado</th>
+                        <th>Fecha</th>
+                        <th>Codigo QR</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ticket in tickets %}
+                        <tr>
+                            <td>{{ ticket.usuario.username }}</td>
+                            <td>{{ ticket.evento.nombre }}</td>
+                            <td>{{ ticket.estado }}</td>
+                            <td>{{ ticket.evento.fecha }}</td>
+                            <td>{{ ticket.codigo_qr }}</td>
+                            <td>
+                                <form action="{% url 'cambiar_estado_ticket' ticket.id %}" method="post">
+                                    {% csrf_token %}
+                                    <select name="estado" class="form-select d-inline w-auto">
+                                        <option value="Válido" {% if ticket.estado == "Válido" %}selected{% endif %}>Válido</option>
+                                        <option value="Pendiente" {% if ticket.estado == "Pendiente" %}selected{% endif %}>Pendiente</option>
+                                        <option value="Cancelado" {% if ticket.estado == "Cancelado" %}selected{% endif %}>Cancelado</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-primary btn-sm">Actualizar</button>
+                                </form>
+
+                                <!-- Botón para abrir el modal del check-in -->
+                                <button type="button" class="btn btn-success btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#checkInModal">
+                                    Realizar Check-in
+                                </button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="text-center">No hay tickets para gestionar.</p>
+        {% endif %}
+    </div>
+    {% include 'tasks/check_in.html' %}
+
+
+</body>
+</html>
