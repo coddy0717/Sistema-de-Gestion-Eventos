@@ -35,7 +35,7 @@ def login_user(request):
             login(request, user)
             return redirect(request.GET.get('next', 'lista_eventos'))
         messages.error(request, 'Usuario o contraseña incorrectos')
-    return render(request, 'tasks/login.html')
+    return render(request, 'eventos/Login/login.html')
 
 
 def register_user(request):
@@ -55,7 +55,7 @@ def register_user(request):
             messages.success(request, 'Usuario creado exitosamente')
             login(request, user)
             return redirect('home')
-    return render(request, 'tasks/register.html')
+    return render(request, 'eventos/Login/register.html')
 
 
 @login_required
@@ -75,13 +75,13 @@ def crear_evento(request):
         evento.save()
         messages.success(request, 'Evento creado exitosamente.')
         return redirect('lista_eventos')
-    return render(request, 'tasks/crear_evento.html', {'form': form})
+    return render(request, 'eventos/CrearEventos/crear_evento.html', {'form': form})
 
 
 @login_required
 def lista_eventos(request):
     eventos = Evento.objects.all()
-    return render(request, 'tasks/lista_eventos.html', {'eventos': eventos})
+    return render(request, 'eventos/ListaEventos/lista_eventos.html', {'eventos': eventos})
 
 
 @login_required
@@ -102,20 +102,20 @@ def comprar_boleto(request, evento_id):
                 Ticket.objects.create(evento=evento, usuario=request.user, codigo_qr=codigo_qr, estado='pendiente')
             messages.success(request, 'Boletos comprados exitosamente.')
             return redirect('historial_compras')
-    return render(request, 'tasks/comprar_boleto.html', {'evento': evento})
+    return render(request, 'eventos/ComprarBoleto/comprar_boleto.html', {'evento': evento})
 
 
 @login_required
 def historial_compras(request):
     tickets = Ticket.objects.filter(usuario=request.user)
-    return render(request, 'tasks/historial_compras.html', {'tickets': tickets})
+    return render(request, 'eventos/Historial_Compra/historial_compras.html', {'tickets': tickets})
 
 
 @login_required
 @role_required(['ADMIN', 'ORGANIZER'])
 def gestionar_eventos(request):
     eventos = Evento.objects.filter(creador=request.user)
-    return render(request, 'tasks/gestion_eventos.html', {'eventos': eventos})
+    return render(request, 'eventos/Gestion_Eventos/gestion_eventos.html', {'eventos': eventos})
 
 
 @login_required
@@ -126,7 +126,7 @@ def editar_evento(request, evento_id):
         form.save()
         messages.success(request, 'Evento actualizado correctamente.')
         return redirect('gestionar_eventos')
-    return render(request, 'tasks/editar_evento.html', {'form': form, 'evento': evento})
+    return render(request, 'eventos/Gestion_Eventos/editar_evento.html', {'form': form, 'evento': evento})
 
 
 @login_required
@@ -136,7 +136,7 @@ def eliminar_evento(request, evento_id):
         evento.delete()
         messages.success(request, 'Evento eliminado correctamente.')
         return redirect('gestionar_eventos')
-    return render(request, 'tasks/eliminar_evento.html', {'evento': evento})
+    return render(request, 'eventos/Gestion_Eventos/eliminar_evento.html', {'evento': evento})
 
 
 @login_required
@@ -165,12 +165,12 @@ def check_in_ticket(request, ticket_id):
             messages.success(request, "Check-in realizado con éxito.")
         else:
             messages.warning(request, "Este ticket ya está marcado como válido.")
-    return redirect("tasks/check_in")
+    return redirect("eventos/check_in")
 
 @login_required
 def agenda_eventos(request):
     eventos = Evento.objects.all()
-    return render(request, 'tasks/agenda_eventos.html', {'eventos': eventos})
+    return render(request, 'eventos/ListaEventos/agenda_eventos.html', {'eventos': eventos})
 
 
 @login_required
@@ -187,4 +187,4 @@ def gestionar_tickets(request):
         else:
             messages.error(request, "Código QR no válido.")
     tickets = Ticket.objects.all()
-    return render(request, "tasks/gestion_tickets.html", {"tickets": tickets})
+    return render(request, "eventos/Tickets/gestion_tickets.html", {"tickets": tickets})
